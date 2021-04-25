@@ -7,7 +7,7 @@ use JsonSchema\Exception\ValidationException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 
-class Base_Schema extends Elementor_Test_Base {
+abstract class Base_Schema extends Elementor_Test_Base {
 	const HTTP_USER_AGENT = 'test-agent';
 
 	public function setUp() {

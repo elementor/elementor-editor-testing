@@ -4,8 +4,7 @@
 	"type": "library",
 	"license": "GPL-3.0",
 	"minimum-stability": "stable",
-	"require": {},
-	"require-dev": {
+	"require": {
 		"justinrainbow/json-schema": "^5.2"
 	},
 	"authors": [
