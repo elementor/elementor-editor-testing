@@ -1,0 +1,23 @@
+{
+	"name": "inewlegend/elementor-test-base",
+	"description": "Elementor test base",
+	"type": "library",
+	"license": "GPL-3.0",
+	"minimum-stability": "stable",
+	"require": {},
+	"require-dev": {
+		"justinrainbow/json-schema": "^5.2"
+	},
+	"authors": [
+		{
+			"name": "Elementor team"
+		}
+	],
+	"autoload": {
+		"classmap": [
+			"phpunit/",
+			"phpunit/factories/",
+			"phpunit/traits/"
+		]
+	}
+}
