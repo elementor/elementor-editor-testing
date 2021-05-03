@@ -6,9 +6,28 @@ use Elementor\Tracker;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
+use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Constraints\Factory;
 
 abstract class Base_Schema extends Elementor_Test_Base {
 	const HTTP_USER_AGENT = 'test-agent';
+
+	/**
+	 * @var UriRetriever
+	 */
+	public $uriRetriever;
+
+	/**
+	 * @var SchemaStorage
+	 */
+	public $refResolver;
+
+	public function __construct( $name = null, array $data = [], $dataName = '' ) {
+		parent::__construct( $name, $data, $dataName );
+
+		$this->uriRetriever = new UriRetriever();
+		$this->refResolver = new SchemaStorage( $this->uriRetriever );
+	}
 
 	public function setUp() {
 		parent::setUp();
@@ -21,9 +40,11 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		// Since the usage system represents objects as array instead of stdClass.
 		$data_for_validation = json_decode( json_encode( $data_for_validation ) );
 
+		$schema = $this->refResolver->resolveRef( (object) [ '$ref' => 'file://' . $schema_file ] );
+
 		// Validate
-		$validator = new Validator;
-		$validator->validate( $data_for_validation, (object) [ '$ref' => 'file://' . $schema_file ] );
+		$validator = new Validator( new Factory( $this->refResolver ) );
+		$validator->validate( $data_for_validation, $schema );
 
 		if ( ! $validator->isValid() ) {
 			$error_message = 'JSON does not validate. Violations:' . PHP_EOL;
