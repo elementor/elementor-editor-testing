@@ -40,7 +40,7 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		// Since the usage system represents objects as array instead of stdClass.
 		$data_for_validation = json_decode( json_encode( $data_for_validation ) );
 
-		$schema = $this->refResolver->resolveRef( (object) [ '$ref' => 'file://' . $schema_file ] );
+		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file  );
 
 		// Validate
 		$validator = new Validator( new Factory( $this->refResolver ) );
