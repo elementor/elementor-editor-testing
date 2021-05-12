@@ -42,24 +42,9 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		// Since the usage system represents objects as array instead of stdClass.
 		$data_for_validation = json_decode( json_encode( $data_for_validation ) );
 
-		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file );
-
-		if ( ! empty( $schema->{'$merge'} ) ) {
-			$original_schema = json_decode( file_get_contents( $schema_file ), JSON_OBJECT_AS_ARRAY );
-			$schema_to_merge = json_decode( file_get_contents( $schema->{'$merge'} ), JSON_OBJECT_AS_ARRAY );
-
-			$merged_dst = get_temp_dir() . basename( $schema_file );
-
-			file_put_contents( $merged_dst,
-				json_encode( $this->custom_merge_recursive( $original_schema, $schema_to_merge ) )
-			);
-
-			$schema = $this->refResolver->resolveRef( 'file://' . $merged_dst );
-		}
-
 		// Validate
 		$validator = new Validator( new Factory( $this->refResolver ) );
-		$validator->validate( $data_for_validation, $schema );
+		$validator->validate( $data_for_validation, $this->get_schema_by_file( $schema_file ) );
 
 		if ( ! $validator->isValid() ) {
 			$error_message = 'JSON does not validate. Violations:' . PHP_EOL;
@@ -78,7 +63,7 @@ abstract class Base_Schema extends Elementor_Test_Base {
 	}
 
 	protected function assert_schema_has_no_additional_properties( $schema_file ) {
-		$json_schema_object = json_decode( file_get_contents( $schema_file ) );
+		$json_schema_object = $this->get_schema_by_file( $schema_file );
 
 		$schema_storage = new SchemaStorage();
 		$schema_storage->addSchema( 'validation', $json_schema_object );
@@ -135,6 +120,23 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		] );
 	}
 
+	protected function get_schema_by_file( $schema_file ) {
+		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file );
+
+		if ( ! empty( $schema->{'$merge'} ) ) {
+			$original_schema = json_decode( file_get_contents( $schema_file ), JSON_OBJECT_AS_ARRAY );
+			$schema_to_merge = json_decode( file_get_contents( $schema->{'$merge'} ), JSON_OBJECT_AS_ARRAY );
+
+			$merged_dst = get_temp_dir() . basename( $schema_file );
+
+			file_put_contents( $merged_dst, json_encode( $this->custom_merge_recursive( $original_schema, $schema_to_merge ) ) );
+
+			$schema = $this->refResolver->resolveRef( 'file://' . $merged_dst );
+		}
+
+		return $schema;
+	}
+
 	private function custom_merge_recursive( $original_schema, $schema_to_merge ) {
 		$get_value_by_path = function ( $path, $data ) {
 			$current = $data;
@@ -168,7 +170,7 @@ abstract class Base_Schema extends Elementor_Test_Base {
 			return $result;
 		};
 
-		return $map_custom_recursive( function( $value, $path ) use ( $original_schema, $get_value_by_path ) {
+		return $map_custom_recursive( function ( $value, $path ) use ( $original_schema, $get_value_by_path ) {
 			$original_value = $get_value_by_path( $path, $original_schema );
 
 			if ( null === $original_value ) {
