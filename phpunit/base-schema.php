@@ -1,15 +1,17 @@
 <?php
+
 namespace Elementor\Testing;
 
 use Elementor\Core\Utils\Collection;
 use Elementor\Tracker;
+use JsonSchema\Constraints\Factory;
 use JsonSchema\Exception\ValidationException;
 use JsonSchema\SchemaStorage;
-use JsonSchema\Validator;
 use JsonSchema\Uri\UriRetriever;
-use JsonSchema\Constraints\Factory;
+use JsonSchema\Validator;
 
 abstract class Base_Schema extends Elementor_Test_Base {
+
 	const HTTP_USER_AGENT = 'test-agent';
 
 	/**
@@ -40,7 +42,20 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		// Since the usage system represents objects as array instead of stdClass.
 		$data_for_validation = json_decode( json_encode( $data_for_validation ) );
 
-		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file  );
+		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file );
+
+		if ( ! empty( $schema->{'$merge'} ) ) {
+			$original_schema = json_decode( file_get_contents( $schema_file ), JSON_OBJECT_AS_ARRAY );
+			$schema_to_merge = json_decode( file_get_contents( $schema->{'$merge'} ), JSON_OBJECT_AS_ARRAY );
+
+			$merged_dst = get_temp_dir() . basename( $schema_file );
+
+			file_put_contents( $merged_dst,
+				json_encode( $this->custom_merge_recursive( $original_schema, $schema_to_merge ) )
+			);
+
+			$schema = $this->refResolver->resolveRef( 'file://' . $merged_dst );
+		}
 
 		// Validate
 		$validator = new Validator( new Factory( $this->refResolver ) );
@@ -93,7 +108,7 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		} );
 	}
 
-	// TODO: Should be in batter place, like dedicated factory.
+	// TODO: Should be in batter place, like dedicated factory or mock folder.
 	protected function generate_plugins_mock() {
 		// Arrange
 		$plugins = new Collection( [
@@ -118,5 +133,53 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		$this->mock_wp_api( [
 			'get_plugins' => $plugins,
 		] );
+	}
+
+	private function custom_merge_recursive( $original_schema, $schema_to_merge ) {
+		$get_value_by_path = function ( $path, $data ) {
+			$current = $data;
+
+			foreach ( $path as $key ) {
+				if ( ! isset( $current[ $key ] ) ) {
+					return null;
+				}
+				$current = $current[ $key ];
+			}
+
+			return $current;
+		};
+
+		$map_custom_recursive = function ( $callback, $needle ) use ( &$map_custom_recursive ) {
+			$result = [];
+			static $path = [];
+
+			foreach ( $needle as $key => $value ) {
+				$path [] = $key;
+
+				$result[ $key ] = $callback( $value, $path );
+
+				if ( is_array( $value ) ) {
+					$map_custom_recursive( $callback, $value );
+				}
+
+				array_pop( $path );
+			}
+
+			return $result;
+		};
+
+		return $map_custom_recursive( function( $value, $path ) use ( $original_schema, $get_value_by_path ) {
+			$original_value = $get_value_by_path( $path, $original_schema );
+
+			if ( null === $original_value ) {
+				return $value;
+			}
+
+			if ( is_array( $original_value ) ) {
+				return array_merge_recursive( $original_value, $value );
+			}
+
+			return $original_value;
+		}, $schema_to_merge );
 	}
 }
