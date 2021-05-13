@@ -3,7 +3,7 @@ namespace ElementorTesting\Traits;
 
 trait Mock_Data {
 
-	static $classes = [];
+	private static $classes = [];
 
 	public function mock_get_default_item( $class_name ) {
 		return $this->get_class( $class_name )->get_default_item();
