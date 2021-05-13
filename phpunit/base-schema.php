@@ -1,6 +1,6 @@
 <?php
 
-namespace Elementor\Testing;
+namespace ElementorTesting;
 
 use Elementor\Core\Utils\Collection;
 use Elementor\Tracker;

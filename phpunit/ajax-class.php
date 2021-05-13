@@ -1,8 +1,8 @@
 <?php
-namespace Elementor\Testing;
+namespace ElementorTesting;
 
-use Elementor\Testing\Traits\Base_Elementor;
-use Elementor\Testing\Traits\Extra_Assertions;
+use ElementorTesting\Traits\Base_Elementor;
+use ElementorTesting\Traits\Extra_Assertions;
 
 abstract class Elementor_Test_AJAX extends \WP_Ajax_UnitTestCase {
 

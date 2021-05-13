@@ -1,5 +1,5 @@
 <?php
-namespace Elementor\Testing\Traits;
+namespace ElementorTesting\Traits;
 
 /**
  * @mixin \WP_UnitTestCase

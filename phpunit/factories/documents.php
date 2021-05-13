@@ -1,6 +1,6 @@
 <?php
 
-namespace Elementor\Testing\Factories;
+namespace ElementorTesting\Factories;
 
 use Elementor\Core\Base\Document;
 use Elementor\Plugin;

@@ -1,9 +1,9 @@
 <?php
-namespace Elementor\Testing\Traits;
+namespace ElementorTesting\Traits;
 
 use Elementor\Core\Wp_Api;
 use Elementor\Plugin;
-use Elementor\Testing\Factories\Factory;
+use ElementorTesting\Factories\Factory;
 
 trait Base_Elementor {
 
