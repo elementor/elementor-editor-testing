@@ -93,33 +93,6 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		} );
 	}
 
-	// TODO: Should be in batter place, like dedicated factory or mock folder.
-	protected function generate_plugins_mock() {
-		// Arrange
-		$plugins = new Collection( [
-			'elementor/elementor.php' => [
-				'Elementor tested up to' => '',
-				'Name' => 'Elementor',
-				'PluginURI' => 'https:\/\/elementor.com\/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash',
-				'Version' => ELEMENTOR_VERSION,
-				'Description' => 'The Elementor Website Builder has it all: drag and drop page builder, pixel perfect design, mobile responsive editing, and more. Get started now!',
-				'Author' => "Elementor.com",
-				'AuthorURI' => 'https:\/\/elementor.com\/?utm_source=wp-plugins&utm_campaign=author-uri&utm_medium=wp-dash',
-				'TextDomain' => 'elementor',
-				'DomainPath' => '',
-				'Network' => false,
-				'RequiresWP' => '',
-				'RequiresPHP' => '',
-				'Title' => 'Elementor',
-				'AuthorName' => 'Elementor.com',
-			],
-		] );
-
-		$this->mock_wp_api( [
-			'get_plugins' => $plugins,
-		] );
-	}
-
 	protected function get_schema_by_file( $schema_file ) {
 		$schema = $this->refResolver->resolveRef( 'file://' . $schema_file );
 
@@ -137,6 +110,14 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		return $schema;
 	}
 
+	/**
+	 * TODO: Optimize.
+	 *
+	 * @param array $original_schema
+	 * @param array $schema_to_merge
+	 *
+	 * @return array
+	 */
 	private function custom_merge_recursive( $original_schema, $schema_to_merge ) {
 		$get_value_by_path = function ( $path, $data ) {
 			$current = $data;
