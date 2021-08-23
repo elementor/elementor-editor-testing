@@ -1,13 +1,6 @@
-elementor-test-base
+Elementor editor testing base.
 
 ```
-composer require elementor-test-base
+composer require elementor-editor-testing
 ```
 
-# TODO: 
-should be
-
-elementor-testing
-```
-composer require elementor-testing
-```
