@@ -1,5 +1,5 @@
 <?php
-namespace ElementorTesting\Traits;
+namespace ElementorEditorTesting\Traits;
 
 use Elementor\Plugin;
 

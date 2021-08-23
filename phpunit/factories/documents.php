@@ -1,6 +1,5 @@
 <?php
-
-namespace ElementorTesting\Factories;
+namespace ElementorEditorTesting\Factories;
 
 use Elementor\Core\Base\Document;
 use Elementor\Plugin;
@@ -16,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @method int[] create_many( $count, $args = array(), $generation_definitions = null )
  */
 class Documents extends WP_UnitTest_Factory_For_Thing {
+
 	const DEFAULT_WIDGET_DATA_MOCK = [
 		'id' => 'mock-widget',
 		'elType' => 'widget',

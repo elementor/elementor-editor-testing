@@ -1,5 +1,5 @@
 <?php
-namespace ElementorTesting\Traits;
+namespace ElementorEditorTesting\Traits;
 
 trait Mock_Data {
 
@@ -29,7 +29,7 @@ trait Mock_Data {
 	/**
 	 * @param string $class_name
 	 *
-	 * @return \ElementorTesting\Mock\Mock_Base
+	 * @return \ElementorEditorTesting\Mock\Mock_Base
 	 */
 	private function get_class( $class_name ) {
 		if ( in_array( $class_name, self::$classes ) ) {

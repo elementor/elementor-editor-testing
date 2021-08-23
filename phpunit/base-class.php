@@ -1,13 +1,14 @@
 <?php
-namespace ElementorTesting;
+namespace ElementorEditorTesting;
 
-use Elementor\Plugin;
 use Elementor\Core\Wp_Api;
-use ElementorTesting\Traits\Auth_Helpers;
-use ElementorTesting\Traits\Base_Elementor;
-use ElementorTesting\Traits\Extra_Assertions;
+use Elementor\Plugin;
+use ElementorEditorTesting\Traits\Auth_Helpers;
+use ElementorEditorTesting\Traits\Base_Elementor;
+use ElementorEditorTesting\Traits\Extra_Assertions;
 
 abstract class Elementor_Test_Base extends \WP_UnitTestCase {
+
 	use Base_Elementor, Extra_Assertions, Auth_Helpers;
 
 	public function setUp() {

@@ -1,5 +1,5 @@
 <?php
-namespace ElementorTesting\Factories;
+namespace ElementorEditorTesting\Factories;
 
 use Elementor\Core\Base\Document;
 use Elementor\Plugin;
@@ -61,23 +61,19 @@ class Factory extends \WP_UnitTest_Factory {
 	 */
 	public function create_and_get_parent_and_child_posts() {
 		$user_id = $this->user->create( [ 'display_name' => 'elementor' ] );
-		$post_id = $this->post->create(
-			[
+		$post_id = $this->post->create( [
 				'post_author' => $user_id,
 				'post_date' => '2014-11-11 23:45:30',
 				'post_type' => 'revision',
-			]
-		);
-		$inherent_post_id = $this->post->create(
-			[
+			] );
+		$inherent_post_id = $this->post->create( [
 				'post_date' => '2014-11-12 23:45:30',
 				'post_type' => 'revision',
 				'post_author' => $user_id,
 				'post_parent' => $post_id,
 				'post_name' => $post_id . '-autosave',
 
-			]
-		);
+			] );
 
 		return [
 			'parent_id' => $post_id,

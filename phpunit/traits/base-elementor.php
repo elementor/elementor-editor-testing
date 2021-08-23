@@ -1,9 +1,9 @@
 <?php
-namespace ElementorTesting\Traits;
+namespace ElementorEditorTesting\Traits;
 
 use Elementor\Core\Wp_Api;
 use Elementor\Plugin;
-use ElementorTesting\Factories\Factory;
+use ElementorEditorTesting\Factories\Factory;
 
 trait Base_Elementor {
 
@@ -61,9 +61,7 @@ trait Base_Elementor {
 	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function mock_wp_api( array $methods = [] ) {
-		$mock = $this->getMockBuilder( Wp_Api::class )
-			->setMethods( array_keys( $methods ) )
-			->getMock();
+		$mock = $this->getMockBuilder( Wp_Api::class )->setMethods( array_keys( $methods ) )->getMock();
 
 		foreach ( $methods as $method_name => $method_return ) {
 			$mock->method( $method_name )->willReturn( $method_return );

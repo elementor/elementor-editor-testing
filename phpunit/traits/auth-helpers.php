@@ -1,10 +1,11 @@
 <?php
-namespace ElementorTesting\Traits;
+namespace ElementorEditorTesting\Traits;
 
 /**
  * @mixin \WP_UnitTestCase
  */
 trait Auth_Helpers {
+
 	/**
 	 * @param $role
 	 *

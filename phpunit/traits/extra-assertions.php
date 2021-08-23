@@ -1,23 +1,21 @@
 <?php
-namespace ElementorTesting\Traits;
+namespace ElementorEditorTesting\Traits;
 
 /**
  * @mixin \WP_UnitTestCase
  */
 trait Extra_Assertions {
+
 	/**
 	 * Asserts that an array have the specified keys.
 	 *
-	 * @param array $keys
+	 * @param array              $keys
 	 * @param array|\ArrayAccess $array
-	 * @param string $message
+	 * @param string             $message
 	 */
 	public function assert_array_have_keys( $keys, $array, $message = '' ) {
 		if ( ! is_array( $keys ) ) {
-			throw \PHPUnit_Util_InvalidArgumentHelper::factory(
-				1,
-				'only array'
-			);
+			throw \PHPUnit_Util_InvalidArgumentHelper::factory( 1, 'only array' );
 		}
 
 		foreach ( $keys as $key ) {
@@ -26,16 +24,13 @@ trait Extra_Assertions {
 	}
 
 	/**
-	 * @param $keys
-	 * @param $array
+	 * @param        $keys
+	 * @param        $array
 	 * @param string $message
 	 */
 	public function assert_array_not_have_keys( $keys, $array, $message = '' ) {
 		if ( ! is_array( $keys ) ) {
-			throw \PHPUnit_Util_InvalidArgumentHelper::factory(
-				1,
-				'only array'
-			);
+			throw \PHPUnit_Util_InvalidArgumentHelper::factory( 1, 'only array' );
 		}
 
 		foreach ( $keys as $key ) {
@@ -46,22 +41,16 @@ trait Extra_Assertions {
 	/**
 	 * assert that an action has been registered for this hook.
 	 *
-	 * @param string $tag
+	 * @param string         $tag
 	 * @param false|callable $function_to_check
 	 */
 	public function assert_has_hook( $tag, $function_to_check = false ) {
 		if ( ! is_string( $tag ) ) {
-			throw \PHPUnit_Util_InvalidArgumentHelper::factory(
-				1,
-				'only string'
-			);
+			throw \PHPUnit_Util_InvalidArgumentHelper::factory( 1, 'only string' );
 		}
 
 		if ( ! ( is_callable( $function_to_check ) || ( ! $function_to_check ) ) ) {
-			throw \PHPUnit_Util_InvalidArgumentHelper::factory(
-				1,
-				'only callback of false'
-			);
+			throw \PHPUnit_Util_InvalidArgumentHelper::factory( 1, 'only callback of false' );
 		}
 
 		$this->assertNotFalse( has_filter( $tag, $function_to_check ) );
