@@ -6,13 +6,16 @@ use Elementor\Plugin;
 use ElementorEditorTesting\Traits\Auth_Helpers;
 use ElementorEditorTesting\Traits\Base_Elementor;
 use ElementorEditorTesting\Traits\Extra_Assertions;
+use ElementorEditorTesting\Traits\Kit_Trait;
 
 abstract class Elementor_Test_Base extends \WP_UnitTestCase {
 
-	use Base_Elementor, Extra_Assertions, Auth_Helpers;
+	use Base_Elementor, Extra_Assertions, Auth_Helpers, Kit_Trait;
 
 	public function setUp() {
 		parent::setUp();
+
+		$this->create_default_kit();
 
 		set_current_screen( 'dashboard' );
 	}
