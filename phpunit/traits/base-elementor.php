@@ -13,19 +13,12 @@ trait Base_Elementor {
 	private static $elementor;
 
 	/**
-	 * @var Factory
-	 */
-	private static $factory;
-
-	/**
 	 * @param $name
 	 *
 	 * @return Plugin|Factory
 	 */
 	public function __get( $name ) {
 		switch ( $name ) {
-			case 'factory':
-				return self::factory();
 			case 'elementor':
 				return self::elementor();
 		}
@@ -37,11 +30,12 @@ trait Base_Elementor {
 	 * @return Factory
 	 */
 	protected static function factory() {
-		if ( ! self::$factory ) {
-			self::$factory = new Factory();
+		static $factory = null;
+		if ( ! $factory ) {
+			$factory = new Factory();
 		}
 
-		return self::$factory;
+		return $factory;
 	}
 
 	/**
