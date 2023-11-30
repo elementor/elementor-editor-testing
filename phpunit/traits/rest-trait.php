@@ -13,7 +13,7 @@ Trait Rest_Trait {
 	 */
 	protected $data_manager;
 
-	public function setUp() {
+	public function setUp() : void {
 		parent::setUp();
 
 		$this->data_manager = Manager::instance();
