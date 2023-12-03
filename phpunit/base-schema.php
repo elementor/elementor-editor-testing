@@ -30,7 +30,7 @@ abstract class Base_Schema extends Elementor_Test_Base {
 		$this->refResolver = new SchemaStorage( $this->uriRetriever );
 	}
 
-	public function setUp() : void {
+	public function setUp(): void{
 		parent::setUp();
 
 		// Required by `Tracker::get_tracking_data`.
