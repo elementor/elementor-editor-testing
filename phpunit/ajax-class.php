@@ -8,7 +8,7 @@ use ElementorEditorTesting\Traits\Kit_Trait;
 abstract class Elementor_Test_AJAX extends \WP_Ajax_UnitTestCase {
 	use Base_Elementor, Extra_Assertions, Kit_Trait;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->create_default_kit();

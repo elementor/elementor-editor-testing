@@ -12,7 +12,7 @@ abstract class Elementor_Test_Base extends \WP_UnitTestCase {
 
 	use Base_Elementor, Extra_Assertions, Auth_Helpers, Kit_Trait;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->create_default_kit();
@@ -20,7 +20,7 @@ abstract class Elementor_Test_Base extends \WP_UnitTestCase {
 		set_current_screen( 'dashboard' );
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		Plugin::$instance->editor->set_edit_mode( false );
