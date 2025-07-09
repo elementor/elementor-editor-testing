@@ -49,6 +49,13 @@ trait Auth_Helpers {
 	/**
 	 * @return \WP_User
 	 */
+	public function act_as_author() {
+		return $this->act_as( 'author' );
+	}
+
+	/**
+	 * @return \WP_User
+	 */
 	public function act_as_subscriber() {
 		return $this->act_as( 'subscriber' );
 	}
